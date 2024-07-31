@@ -17,6 +17,47 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+/* For ordered lists */
+.editor-list-ol {
+  padding: 0;
+  margin: 0;
+  margin-left: 16px;
+  list-style-type: decimal;
+}
+
+.editor-list-ol li {
+  color: #fff; /* Text color for list items */
+}
+
+.editor-list-ol li::marker {
+  color: #fff; /* Color for the numbers */
+}
+
+/* For unordered lists */
+.editor-list-ul {
+  padding: 0;
+  margin: 0;
+  margin-left: 16px;
+  list-style-type: disc;
+}
+
+.editor-list-ul li {
+  color: #fff; /* Text color for list items */
+}
+
+.editor-list-ul li::marker {
+  color: #fff; /* Color for the bullets */
+}
+
+/* For nested lists */
+.editor-nested-listitem {
+  list-style-type: none;
+}
+
+
+
+
 .other h2 {
   font-size: 18px;
   color: #444;
@@ -36,6 +77,7 @@ body {
 }
 
 .App {
+  
   font-family: sans-serif;
   text-align: center;
 }
@@ -377,6 +419,26 @@ pre::-webkit-scrollbar-thumb {
   margin: 0 4px;
 }
 
+.toolbar select.toolbar-item {
+  border: 0;
+  display: flex;
+  background: none;
+  border-radius: 10px;
+  padding: 8px;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 70px;
+  font-size: 14px;
+  color: #777;
+  text-overflow: ellipsis;
+}
+
+.toolbar select.code-language {
+  text-transform: capitalize;
+  width: 130px;
+}
+
 .toolbar .toolbar-item .text {
   display: flex;
   line-height: 20px;
@@ -391,6 +453,35 @@ pre::-webkit-scrollbar-thumb {
   text-align: left;
 }
 
+.toolbar i.chevron-down {
+  margin-top: 3px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  user-select: none;
+  background-color: gray;
+}
+
+.toolbar i.chevron-down.inside {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  margin-left: -25px;
+  margin-top: 11px;
+  margin-right: 10px;
+  pointer-events: none;
+}
+
+i.chevron-down {
+  background-color: transparent;
+  background-size: contain;
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  background-image: url(/assets/icons/chevron-down.svg);
+}
+
+
 .toolbar .toolbar-item .icon {
   display: flex;
   width: 20px;
@@ -401,9 +492,225 @@ pre::-webkit-scrollbar-thumb {
   background-size: contain;
 }
 
+#block-controls button:hover {
+  background-color: #efefef;
+}
+
+#block-controls button:focus-visible {
+  border-color: blue;
+}
+
+#block-controls span.block-type {
+  background-size: contain;
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 2px;
+}
+
 .toolbar-item .format {
   filter: invert(1);
 }
+
+
+#block-controls span.block-type.h1 {
+  background-image: url(/assets/icons/h1.svg);
+}
+
+#block-controls span.block-type.h2 {
+  background-image: url(/assets/icons/h2.svg);
+}
+
+#block-controls span.block-type.quote {
+  background-image: url(/assets/icons/quote.svg);
+}
+
+#block-controls span.block-type.code {
+  background-image: url(/assets/icons/code.svg);
+}
+
+.dropdown {
+  z-index: 5;
+  display: block;
+  position: absolute;
+  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  min-width: 100px;
+  min-height: 40px;
+  background-color: #27344D;
+}
+
+.dropdown .item {
+  margin: 0 8px 0 8px;
+  padding: 8px;
+  color: #050505;
+  cursor: pointer;
+  line-height: 16px;
+  font-size: 15px;
+  display: flex;
+  align-content: center;
+  flex-direction: row;
+  flex-shrink: 0;
+  justify-content: space-between;
+  background-color: #27344D;
+  border-radius: 8px;
+  border: 0;
+  min-width: 268px;
+}
+.dropdown .item:hover {
+  duration: 300;
+  background-color: white;
+}
+
+
+.dropdown .item .active {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+}
+
+.dropdown .item:first-child {
+  margin-top: 8px;
+}
+
+.dropdown .item:last-child {
+  margin-bottom: 8px;
+} 
+dropdown .item:hover {
+  background-color: #eee;
+}
+
+.dropdown .item .text {
+  display: flex;
+  line-height: 20px;
+  flex-grow: 1;
+  width: 200px;
+}
+
+.dropdown .item .icon {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  user-select: none;
+  margin-right: 12px;
+  line-height: 16px;
+  background-size: contain;
+}
+
+
+.link-editor {
+  position: absolute;
+  z-index: 100;
+  top: -10000px;
+  left: -10000px;
+  margin-top: -6px;
+  max-width: 300px;
+  width: 100%;
+  opacity: 0;
+  background-color: #fff;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  transition: opacity 0.5s;
+}
+
+.link-editor .link-input {
+  display: block;
+  width: calc(100% - 24px);
+  box-sizing: border-box;
+  margin: 8px 12px;
+  padding: 8px 12px;
+  border-radius: 15px;
+  background-color: #eee;
+  font-size: 15px;
+  color: rgb(5, 5, 5);
+  border: 0;
+  outline: 0;
+  position: relative;
+  font-family: inherit;
+}
+
+
+.link-editor .link-input a {
+  color: rgb(33, 111, 219);
+  text-decoration: none;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-right: 30px;
+  text-overflow: ellipsis;
+}
+
+.other ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.editor-list-ol {
+  padding: 0;
+  margin: 0;
+  margin-left: 16px;
+}
+
+.editor-list-ul {
+  padding: 0;
+  margin: 0;
+  margin-left: 16px;
+}
+
+.editor-listitem {
+  
+  margin: 8px 32px 8px 32px;
+}
+
+.editor-nested-listitem {
+  list-style-type: none;
+}
+
+pre::-webkit-scrollbar {
+  background: transparent;
+  width: 10px;
+}
+
+pre::-webkit-scrollbar-thumb {
+  background: #999;
+}
+
+
+
+
+.link-editor .link-input a:hover {
+  text-decoration: underline;
+}
+
+.link-editor .button {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 0 2px;
+}
+
+.link-editor .button.hovered {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background-color: #eee;
+}
+
+.link-editor .button i,
+.actions i {
+  background-size: contain;
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  vertical-align: -0.25em;
+}
+
 
 i.undo {
   background-image: url(/assets/icons/arrow-counterclockwise.svg);
@@ -456,3 +763,17 @@ i.h2 {
 i.h3 {
   background-image: url(/assets/icons/h3.svg);
 }
+
+i.code{
+  background-image: url(/assets/icons/code.svg);
+}
+
+i.quote{
+  background-image: url(/assets/icons/quote.svg);
+}
+
+
+i.link{
+  background-image: url(/assets/icons/link.svg);
+}
+

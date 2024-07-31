@@ -2,13 +2,28 @@
 
 import Theme from './plugins/Theme';
 import ToolbarPlugin from './plugins/ToolbarPlugin';
-import { HeadingNode } from '@lexical/rich-text';
+import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+import { RichTextPlugin  } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import TreeViewPlugin from './plugins/TreeViewPlugin';
+import {ListPlugin} from '@lexical/react/LexicalListPlugin';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
+import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import { ListNode, ListItemNode } from '@lexical/list';
+import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
+import { TRANSFORMERS } from "@lexical/markdown";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { AutoLinkNode, LinkNode } from "@lexical/link";
+import { CodeHighlightNode, CodeNode } from "@lexical/code";
+import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
+
+import ListMaxIndentLevelPlugin from "./plugins/ListMaxIndentLevelPlugin";
+import CodeHighlightPlugin from "./plugins/CodeHighlightPlugin";
+import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
+
 import React from 'react';
 
 // Catch any errors that occur during Lexical updates and log them
@@ -22,7 +37,14 @@ function Placeholder() {
 export function Editor() {
   const initialConfig = {
     namespace: 'Editor',
-    nodes: [HeadingNode],
+    nodes: [HeadingNode , ListNode, ListItemNode,QuoteNode,
+      CodeNode,
+      CodeHighlightNode,
+      TableNode,
+      TableCellNode,
+      TableRowNode,
+      AutoLinkNode,
+      LinkNode],
     onError: (error: Error) => {
       console.error(error);
       throw error;
@@ -44,9 +66,19 @@ export function Editor() {
             ErrorBoundary={LexicalErrorBoundary}
           />
           <HistoryPlugin />
+          
+          <ListPlugin />
           <AutoFocusPlugin />
+          <AutoFocusPlugin />
+          <CodeHighlightPlugin />
+          <ListPlugin />
+          <LinkPlugin />
+          <AutoLinkPlugin />
+          <ListMaxIndentLevelPlugin maxDepth={7} />
+          <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
         </div>
       </div>
     </LexicalComposer>
   );
 }
+

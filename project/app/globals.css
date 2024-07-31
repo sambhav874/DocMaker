@@ -5,6 +5,8 @@
 
 @import "../styles/dark-theme.css";
 
+
+
 .auth-page {
     @apply flex h-screen w-full flex-col items-center justify-center bg-dark-200 gap-10;
   }
@@ -40,5 +42,4 @@
 .cl-logoBox {
   height: 52px;
 }
-
 

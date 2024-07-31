@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(root)/documents/[id]/page.tsx", "app/(root)/documents/page.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(root)/documents/[id]/page.tsx", "app/(root)/documents/page.tsx", "components/editor/plugins/AutoLinkPlugin.js"],
   "exclude": ["node_modules"]
 }
