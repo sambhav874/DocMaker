@@ -11,15 +11,19 @@ import {
   $getSelection,
   $isRangeSelection,
   $createParagraphNode,
-  $getNodeByKey
+  $getNodeByKey,
+  
 } from "lexical";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import {
+  $getSelectionStyleValueForProperty,
   $isParentElementRTL,
-  $wrapNodes,
-  $isAtNodeEnd
-} from "@lexical/selection";
-import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
+  $patchStyleText,
+  $setBlocksType,
+  $isAtNodeEnd ,$wrapNodes
+} from '@lexical/selection';
+
+import { $getNearestNodeOfType, mergeRegister , } from "@lexical/utils";
 import {
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
@@ -39,6 +43,9 @@ import {
   getDefaultCodeLanguage,
   getCodeLanguages
 } from "@lexical/code";
+import DropDown, {DropDownItem} from '../ui/DropDown';
+import DropdownColorPicker from "../ui/DropDownColorPicker";
+import FontSize from "../ui/FontSize";
 
 const LowPriority = 1;
 
@@ -51,6 +58,32 @@ const supportedBlockTypes = new Set([
   "ul",
   "ol"
 ]);
+
+const FONT_SIZE_OPTIONS = [
+  ['10px', '10px'],
+  ['11px', '11px'],
+  ['12px', '12px'],
+  ['13px', '13px'],
+  ['14px', '14px'],
+  ['15px', '15px'],
+  ['16px', '16px'],
+  ['17px', '17px'],
+  ['18px', '18px'],
+  ['19px', '19px'],
+  ['20px', '20px'],
+  
+];
+
+
+const FONT_FAMILY_OPTIONS = [
+  ['Arial', 'Arial'],
+  ['Courier New', 'Courier New'],
+  ['Georgia', 'Georgia'],
+  ['Times New Roman', 'Times New Roman'],
+  ['Trebuchet MS', 'Trebuchet MS'],
+  ['Verdana', 'Verdana'],
+];
+
 
 const blockTypeToBlockName = {
   code: "Code Block",
@@ -66,7 +99,7 @@ const blockTypeToBlockName = {
 };
 
 function Divider() {
-  return <div className="divider" />;
+  return <div className=" w-1  mx-1 my-0" />;
 }
 
 function positionEditorElement(editor, rect) {
@@ -80,6 +113,14 @@ function positionEditorElement(editor, rect) {
     editor.style.left = `${
       rect.left + window.pageXOffset - editor.offsetWidth / 2 + rect.width / 2
     }px`;
+  }
+}
+
+function dropDownActiveClass(active) {
+  if (active) {
+    return 'active dropdown-item-active';
+  } else {
+    return '';
   }
 }
 
@@ -250,6 +291,53 @@ function getSelectedNode(selection) {
   } else {
     return $isAtNodeEnd(anchor) ? focusNode : anchorNode;
   }
+}
+
+function FontDropDown({ editor, value, style, disabled = false }) {
+  const handleClick = useCallback(
+    (option) => {
+      editor.update(() => {
+        const selection = $getSelection();
+        if (selection !== null) {
+          $patchStyleText(selection, {
+            [style]: option,
+          });
+        }
+      });
+    },
+    [editor, style]
+  );
+
+  const buttonAriaLabel =
+    style === 'font-family'
+      ? 'Formatting options for font family'
+      : 'Formatting options for font size';
+
+  return (
+    <DropDown
+      disabled={disabled}
+      buttonClassName={'toolbar-item ' + style}
+      buttonLabel={value}
+      buttonIconClassName={
+        style === 'font-family' ? 'icon block-type font-family' : ''
+      }
+      buttonAriaLabel={buttonAriaLabel}
+    >
+      {(style === 'font-family' ? FONT_FAMILY_OPTIONS : FONT_SIZE_OPTIONS).map(
+        ([option, text]) => (
+          <DropDownItem
+            className={`item ${dropDownActiveClass(value === option)} ${
+              style === 'font-size' ? 'fontsize-item' : ''
+            }`}
+            onClick={() => handleClick(option)}
+            key={option}
+          >
+            <span className="text">{text}</span>
+          </DropDownItem>
+        )
+      )}
+    </DropDown>
+  );
 }
 
 function BlockOptionsDropdownList({
@@ -425,7 +513,10 @@ export default function ToolbarPlugin() {
   const [showBlockOptionsDropDown, setShowBlockOptionsDropDown] = useState(
     false
   );
+  const [fontColor, setFontColor] = useState('#000');
+  const [fontFamily, setFontFamily] = useState('Arial');
   const [codeLanguage, setCodeLanguage] = useState("");
+  const [fontSize, setFontSize] = useState('15px');
   const [isRTL, setIsRTL] = useState(false);
   const [isLink, setIsLink] = useState(false);
   const [isBold, setIsBold] = useState(false);
@@ -433,6 +524,7 @@ export default function ToolbarPlugin() {
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
   const [isCode, setIsCode] = useState(false);
+  const [isEditable, setIsEditable] = useState(() => editor.isEditable());
 
   const updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -476,7 +568,24 @@ export default function ToolbarPlugin() {
       } else {
         setIsLink(false);
       }
-    }
+
+      setFontColor(
+        $getSelectionStyleValueForProperty(selection, 'color', '#000'),
+      );
+     
+      setFontFamily(
+        $getSelectionStyleValueForProperty(selection, 'font-family', 'Arial'),
+      );
+      let matchingParent;
+      if ($isLinkNode(parent)) {
+        // If node is a link, we need to fetch the parent paragraph node to set format
+        matchingParent = $findMatchingParent(
+          node,
+          (parentNode) => $isElementNode(parentNode) && !parentNode.isInline(),
+        );
+      }
+      
+    } 
   }, [editor]);
 
   useEffect(() => {
@@ -513,6 +622,23 @@ export default function ToolbarPlugin() {
     );
   }, [editor, updateToolbar]);
 
+  const applyStyleText = useCallback(
+  (styles, skipHistoryStack) => {
+    if (editor) {
+      editor.update(
+        () => {
+          const selection = $getSelection();
+          if (selection !== null) {
+            $patchStyleText(selection, styles);
+          }
+        },
+        skipHistoryStack ? { tag: 'historic' } : {}
+      );
+    }
+  },
+  [editor]
+);
+
   const codeLanguges = useMemo(() => getCodeLanguages(), []);
   const onCodeLanguageSelect = useCallback(
     (e) => {
@@ -526,6 +652,13 @@ export default function ToolbarPlugin() {
       });
     },
     [editor, selectedElementKey]
+  );
+
+  const onFontColorSelect = useCallback(
+    (value , skipHistoryStack) => {
+      applyStyleText({color: value}, skipHistoryStack);
+    },
+    [applyStyleText],
   );
 
   const insertLink = useCallback(() => {
@@ -597,6 +730,21 @@ export default function ToolbarPlugin() {
         </>
       ) : (
         <>
+        <FontDropDown
+            disabled={!isEditable}
+            style={'font-family'}
+            value={fontFamily}
+            editor={editor}
+          />
+          <Divider />
+
+          <FontSize
+            selectionFontSize={fontSize.slice(0,-2)}
+            editor={editor}
+            disabled={!isEditable}
+          />
+          
+          
           <button
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
@@ -654,6 +802,15 @@ export default function ToolbarPlugin() {
           {isLink &&
             createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
           <Divider />
+          <DropdownColorPicker
+            disabled={!isEditable}
+            buttonClassName="toolbar-item color-picker"
+            buttonAriaLabel="Formatting text color"
+            buttonIconClassName="icon font-color"
+            color={fontColor}
+            onChange={onFontColorSelect}
+            title="text color"
+          />
           <button
             onClick={() => {
               editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");

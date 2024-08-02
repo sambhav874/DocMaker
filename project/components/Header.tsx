@@ -19,7 +19,7 @@ const Header = ({ children } : HeaderProps) => {
           <FontAwesomeIcon icon={faShare} className="hover:text-dark-200 text-xl font-light ml-2 h-4 w-4" />
         </Button>
         <SignedOut >
-            <SignInButton className="text-white" />
+            <SignInButton  />
           
         </SignedOut>
         <SignedIn>

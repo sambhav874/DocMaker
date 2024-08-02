@@ -15,7 +15,7 @@ const Edit = () => {
         </div>
       </Header>
 
-      <div className="flex min-h-screen w-full bg-dark-100 px-2 py-4">
+      <div className="flex min-h-screen w-full bg-dark-100 px-2 py-4 fixed">
         <div className="flex w-full max-w-4xl bg-slate-900 text-black rounded-lg shadow-lg">
           <div className="w-full">
             <Editor />

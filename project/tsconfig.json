@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(root)/documents/[id]/page.tsx", "app/(root)/documents/page.tsx", "components/editor/plugins/AutoLinkPlugin.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(root)/documents/[id]/page.tsx", "app/(root)/documents/page.tsx", "components/editor/plugins/AutoLinkPlugin.js", "components/editor/ui/FontSize.tsx"],
   "exclude": ["node_modules"]
 }

@@ -17,6 +17,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.toolbar {
+  display: flex;
+  margin-bottom: 1px;
+  background: #09111f;
+  padding: 8px;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  vertical-align: middle;
+  overflow: auto; /* Updated to handle overflow */
+}
+
+.toolbar .divider {
+  width: 1px;
+  background-color: white;
+  margin: 0 4px;
+  color: white;
+}
 
 /* For ordered lists */
 .editor-list-ol {
@@ -55,9 +72,6 @@ body {
   list-style-type: none;
 }
 
-
-
-
 .other h2 {
   font-size: 18px;
   color: #444;
@@ -91,9 +105,10 @@ body {
 }
 
 .editor-container {
+  padding: 2px 2px;
   border-radius: 2px;
   color: #000;
-  line-height: 20px;
+  line-height: 36px;
   font-weight: 400;
   text-align: left;
 }
@@ -361,7 +376,7 @@ pre::-webkit-scrollbar-thumb {
 .toolbar {
   display: flex;
   margin-bottom: 1px;
-  background: #09111f;
+  
   padding: 4px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -371,11 +386,21 @@ pre::-webkit-scrollbar-thumb {
 .toolbar button.toolbar-item {
   border: 0;
   display: flex;
-  background: none;
+  
   border-radius: 0px;
   padding: 8px;
   cursor: pointer;
   vertical-align: middle;
+  
+  transition: background-color 300ms ease, color 300ms ease;
+
+  @apply bg-dark-100;
+}
+
+.toolbar button.toolbar-item:hover {
+  background-color: white;
+  color: #fff; 
+  @apply bg-white;
 }
 
 .toolbar button.toolbar-item:disabled {
@@ -399,14 +424,18 @@ pre::-webkit-scrollbar-thumb {
 
 .toolbar button.toolbar-item:disabled i.format {
   opacity: 0.2;
+  background-color: white;
 }
 
 .toolbar button.toolbar-item.active {
-  background-color: #0f1c34;
+  background-color: white;
+  @apply rounded-lg;
 }
 
 .toolbar button.toolbar-item.active i {
   opacity: 1;
+  background-color: white;
+  @apply rounded-lg;
 }
 
 .toolbar .toolbar-item:hover:not([disabled]) {
@@ -493,11 +522,11 @@ i.chevron-down {
 }
 
 #block-controls button:hover {
-  background-color: #efefef;
+  background-color: #white;
 }
 
 #block-controls button:focus-visible {
-  border-color: blue;
+  border-color: white;
 }
 
 #block-controls span.block-type {
@@ -693,6 +722,7 @@ pre::-webkit-scrollbar-thumb {
   border-radius: 8px;
   cursor: pointer;
   margin: 0 2px;
+  
 }
 
 .link-editor .button.hovered {
@@ -709,6 +739,7 @@ pre::-webkit-scrollbar-thumb {
   height: 20px;
   width: 20px;
   vertical-align: -0.25em;
+ 
 }
 
 
@@ -776,4 +807,19 @@ i.quote{
 i.link{
   background-image: url(/assets/icons/link.svg);
 }
+
+@media (max-width: 768px) {
+  .toolbar {
+    flex-wrap: wrap;
+  }
+
+  .toolbar .toolbar-item {
+    margin-bottom: 4px;
+  }
+
+  .dropdown {
+    min-width: 80px;
+  }
+}
+
 
