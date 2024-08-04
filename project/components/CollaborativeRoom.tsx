@@ -12,8 +12,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SignedOut, SignInButton, SignedIn, UserButton } from '@clerk/nextjs';
 import { updateDocument } from '@/lib/actions/room.actions';
 
-const CollaborativeRoom = ({ roomId, roomMetadata }: CollaborativeRoomProps) => {
-  const currentUserType = 'editor';
+const CollaborativeRoom = ({ roomId, roomMetadata , users , currentUserType }: CollaborativeRoomProps) => {
+  
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [documentTitle, setDocumentTitle] = useState(roomMetadata.title);
@@ -98,7 +98,7 @@ const CollaborativeRoom = ({ roomId, roomMetadata }: CollaborativeRoomProps) => 
           <div className="flex min-h-screen w-full bg-dark-100 px-2 py-4 fixed">
             <div className="flex w-full max-w-4xl bg-slate-900 text-black rounded-lg shadow-lg">
               <div className="w-full">
-                <Editor />
+                <Editor roomId={roomId} currentUserType={currentUserType} />
               </div>
             </div>
           </div>
