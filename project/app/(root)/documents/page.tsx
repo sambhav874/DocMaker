@@ -28,10 +28,12 @@ const Documents = async () => {
             <div className="absolute w-1/3 border-b-2 border-transparent group-hover:border-white transition-all duration-300 mt-16"></div></div>
           
           <div className="flex flex-col gap-4">
-            {roomDocuments.data.map(({ id, metadata, createdAt } : any) => (
+          <div className="m-4"><AddDocumentBtn userId={user.id} email={user.emailAddresses[0].emailAddress} /></div>
+            {roomDocuments.data.map(({ id, metadata, createdAt } : any) => (<>
+              
               <div key={id} className="document-card flex bg-dark-500 hover:bg-white max-w-2xl text-white group group-hover hover:text-dark-100 duration-300 p-4 rounded-lg">
                 <Link href={`/documents/${id}`} className="flex flex-1 items-center gap-4">
-                <div className="document-icon hidden rounded-md bg-dark-500 p-2 sm:block">
+                <div className="document-icon hidden rounded-md bg-dark-500 p-2 group-hover:bg-white sm:block">
                   <Image src="/assets/icons/doc.svg" width={40} height={40} alt={""} />
                 </div>
                 <div className="document-card-header line-clamp-2 text-2xl  hover:text-dark-100">
@@ -41,7 +43,7 @@ const Documents = async () => {
                   </div>
                 </div></Link>
                
-              </div>
+              </div></>
             ))}
           </div>
         </div>

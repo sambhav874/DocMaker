@@ -75,3 +75,4 @@ export const getDocuments = async(email : string) => {
     console.log(`Error happened while getting documents : ${error}`);
   }
 }
+

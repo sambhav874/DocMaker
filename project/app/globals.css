@@ -2,26 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @import "../styles/dark-theme.css";
 @import "@liveblocks/react-ui/styles.css";
 @import "@liveblocks/react-lexical/styles.css";
 
-
-
-.auth-page {
-    @apply flex h-screen w-full flex-col items-center justify-center bg-dark-200 gap-10;
-  }
-.cl-card{
-    @apply  bg-dark-100  ;
+.floating-toolbar {
+  @apply flex w-full min-w-max items-center justify-center gap-2 rounded-lg bg-dark-350 p-1.5 shadow-xl;
 }
 
-  .cl-avatarBox {
-    width: 36px;
-    height: 36px;
-  }
+.floating-toolbar-btn {
+  @apply relative inline-flex size-8 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50;
+}
 
-  .cl-cardBox,
+.toolbar-wrapper {
+  @apply z-50 border-y border-dark-300 bg-dark-100 pl-3 pr-4 shadow-sm;
+}
+
+.editor-container {
+  @apply h-screen w-full flex flex-col bg-dark-100 p-4; /* Add padding here */
+}
+
+.editor-wrapper {
+  @apply flex flex-1 flex-col lg:flex-row items-start justify-start overflow-auto;
+}
+
+.editor-inner {
+  @apply h-full w-full px-4 shadow-md relative flex-grow;
+}
+
+.comments-container {
+  @apply flex-1 space-y-4 px-4 mx-2 lg:w-fit flex w-full flex-col items-center justify-center;
+}
+
+.comment-composer {
+  @apply w-full max-w-[800px] border border-dark-300 bg-dark-200 shadow-sm lg:w-[350px];
+}
+
+.comment-thread {
+  @apply w-full max-w-[800px] border border-dark-300 bg-dark-200 shadow-sm lg:w-[350px] transition-all;
+}
+
+.auth-page {
+  @apply flex h-screen w-full flex-col items-center justify-center bg-dark-200 gap-10;
+}
+
+.cl-card {
+  @apply bg-dark-100;
+}
+
+
+
+.cl-avatarBox {
+  width: 36px;
+  height: 36px;
+}
+
+.cl-cardBox,
 .cl-signIn-start,
 .cl-signUp-start,
 .cl-footer {
@@ -45,3 +81,34 @@
   height: 52px;
 }
 
+.lb-comment-date,
+.lb-lexical-mention-suggestion-user,
+.lb-composer-suggestions-list-item,
+.lb-inbox-notification-date,
+.lb-comment-author,
+.lb-emoji-picker-search-icon,
+.lb-emoji-picker-category-header-title,
+.lb-emoji-picker-search::placeholder {
+  color: #b4c6ee;
+}
+
+.lb-comment-body,
+.lb-dropdown-item,
+.lb-dropdown-item-icon,
+.lb-composer-editor {
+  color: #fff;
+}
+
+.lb-root {
+  --lb-accent-subtle: #0b1527;
+  --lb-radius: 0px;
+  --lb-dynamic-background: #1b2840;
+}
+
+.lb-composer-editor span {
+  color: #fff;
+}
+
+.lb-composer-editor{
+  @apply sticky;
+}

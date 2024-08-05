@@ -91,12 +91,12 @@ const CollaborativeRoom = ({ roomId, roomMetadata , users , currentUserType }: C
               {currentUserType !== 'editor' && !editing && <p className="view-only-tag">View Only</p>}
               {loading && <p className="text-sm text-gray-400">Saving...</p>}
               <div className="flex w-full flex-1 justify-end gap-2 sm:gap-3">
-                <ActiveCollaborators />
-              </div>
+                
+              </div><ActiveCollaborators />
             </div>
           </Header>
           <div className="flex min-h-screen w-full bg-dark-100 px-2 py-4 fixed">
-            <div className="flex w-full max-w-4xl bg-slate-900 text-black rounded-lg shadow-lg">
+            <div className="flex w-full  bg-slate-900 text-black rounded-lg shadow-lg">
               <div className="w-full">
                 <Editor roomId={roomId} currentUserType={currentUserType} />
               </div>

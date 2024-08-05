@@ -11,7 +11,7 @@ import {
   $getSelection,
   $isRangeSelection,
   $createParagraphNode,
-  $getNodeByKey,
+  $getNodeByKey,$isElementNode
   
 } from "lexical";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
@@ -23,7 +23,7 @@ import {
   $isAtNodeEnd ,$wrapNodes
 } from '@lexical/selection';
 
-import { $getNearestNodeOfType, mergeRegister , } from "@lexical/utils";
+import { $getNearestNodeOfType, mergeRegister , $findMatchingParent } from "@lexical/utils";
 import {
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
