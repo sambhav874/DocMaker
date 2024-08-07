@@ -11,6 +11,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SignedOut, SignInButton, SignedIn, UserButton } from '@clerk/nextjs';
 import { updateDocument } from '@/lib/actions/room.actions';
+import ShareModal from './ShareModal';
 
 const CollaborativeRoom = ({ roomId, roomMetadata , users , currentUserType }: CollaborativeRoomProps) => {
   
@@ -90,10 +91,22 @@ const CollaborativeRoom = ({ roomId, roomMetadata , users , currentUserType }: C
               )}
               {currentUserType !== 'editor' && !editing && <p className="view-only-tag">View Only</p>}
               {loading && <p className="text-sm text-gray-400">Saving...</p>}
-              <div className="flex w-full flex-1 justify-end gap-2 sm:gap-3">
-                
-              </div><ActiveCollaborators />
+              
             </div>
+            <div className="flex w-full flex-1 justify-end gap-2 sm:gap-3">
+            <ActiveCollaborators />
+            
+              <ShareModal
+              roomId={roomId} collaborators={users} currentUserType={currentUserType} creatorId={roomMetadata.creatorId} />
+
+            <SignedOut>
+                <SignInButton />
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+
+              </div>
           </Header>
           <div className="flex min-h-screen w-full bg-dark-100 px-2 py-4 fixed">
             <div className="flex w-full  bg-slate-900 text-black rounded-lg shadow-lg">
