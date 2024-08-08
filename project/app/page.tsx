@@ -38,7 +38,11 @@ useEffect(() => {
 <div className="ml-8">
   <div className="absolute top-4 right-4 flex justify-center items-center gap-4 lg:static">
     <SignedOut>
-                <SignInButton />
+                <SignInButton >
+                <div className="lg:static lg:shadow-md hover:shadow-slate-700 bg-dark-100 hover:bg-white hover:text-dark-100 rounded-md text-white font-bold font-sans tracking-wider p-2 transform hover:scale-105 transition-transform duration-100">
+                    Sign In
+                  </div>
+                  </SignInButton>
               </SignedOut>
               <SignedIn>
                 <UserButton />
