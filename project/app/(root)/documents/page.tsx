@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import AddDocumentBtn from '@/components/AddDocumentBtn'
@@ -7,18 +7,26 @@ import { redirect } from "next/navigation";
 import { getDocuments } from "@/lib/actions/room.actions";
 import Link from "next/link";
 import { dateConverter } from "@/lib/utils";
+import Notification from "@/components/Notification";
+import DeleteModal from "@/components/DeleteModal";
 
 const Documents = async () => {
   const user = await currentUser();
   if (!user) redirect('/sign-in');
 
   const roomDocuments = await getDocuments(user.emailAddresses[0].emailAddress);
-  console.log(roomDocuments.data);
+  
 
   return (
     <main className="home-container bg-dark-100 min-h-screen w-full">
       <Header className="sticky left-0 top-0">
-        <div className="flex items-right gap-2 lg:gap-4">Notification</div>
+        <div className="flex items-right gap-2 lg:gap-4 mr-12">
+          <Notification />
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+
+        </div>
       </Header>
 
       {roomDocuments.data.length > 0 ? (
@@ -42,7 +50,7 @@ const Documents = async () => {
                     <p className="text-sm  font-light text-blue-100">Created about {dateConverter(createdAt)}</p>
                   </div>
                 </div></Link>
-               
+               <DeleteModal roomId={id}  />
               </div></>
             ))}
           </div>

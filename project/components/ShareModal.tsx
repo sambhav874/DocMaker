@@ -11,6 +11,8 @@ import { Input } from "./ui/input";
 import UserTypeSelector from "./ui/UserTypeSelector";
 import { getClerkUsers } from "@/lib/actions/user.action";
 import Collaborator from "./Collaborator";
+import { updateDocumentAccess } from "@/lib/actions/room.actions";
+import { type } from "os";
 
 const ShareModal = ({ roomId, collaborators, creatorId, currentUserType }: ShareDocumentDialogProps) => {
 
@@ -25,7 +27,13 @@ const ShareModal = ({ roomId, collaborators, creatorId, currentUserType }: Share
     const shareDocumentHandler = async () => {
         try{
             setLoading(true);
-            
+            await updateDocumentAccess({ 
+                roomId, 
+                email, 
+                userType: userType as UserType, 
+                updatedBy: user.info,
+              });
+
         }
         catch(error){
             console.error(error);
@@ -64,8 +72,8 @@ const ShareModal = ({ roomId, collaborators, creatorId, currentUserType }: Share
                 <Label htmlFor='email' className="my-4 text-white">Email Address</Label>
                 <div className="flex items-center gap-3">
                     <div className="flex flex-1 rounded-md bg-dark-200">
-                    <Input type="email" className="text-white bg-dark-400 pr-2 mr-2" placeholder="Enter the user's email" value={email} onChange={(e) => setEmail(e.target.value)}></Input>
-                    <UserTypeSelector userType={userType} setUserType={setUserType} onClickHandler={shareDocumentHandler} />
+                    <Input type="email" id="email" className="text-white bg-dark-400 pr-2 mr-2" placeholder="Enter the user's email" value={email} onChange={(e) => setEmail(e.target.value)}></Input>
+                    <UserTypeSelector userType={userType} setUserType={setUserType}  />
                     <Button type="submit"
                     onClick={shareDocumentHandler}
                     className="flex items-center justify-center space-x-1 p-2 text-white bg-dark-300 hover:bg-white hover:text-dark-200" disabled={loading}
@@ -80,13 +88,14 @@ const ShareModal = ({ roomId, collaborators, creatorId, currentUserType }: Share
                         
                         <ul className="flex flex-col">
                             {collaborators.map((collaborator) => (
-                                <Collaborator
+                                <Collaborator 
                                 key={collaborator.id}
                                 roomId={roomId}
                                 creatorId={creatorId}
                                 email={collaborator.email}
                                 collaborator={collaborator}
-                                user={user.info} />
+                                user={user.info}
+                              />
                             ))}
                         </ul>
                         

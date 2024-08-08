@@ -27,6 +27,7 @@ import Loader from '../Loader';
 import FloatingToolbarPlugin from './plugins/FloatingToolbarPlugin';
 import { useThreads } from '@liveblocks/react/suspense';
 import Comments from '../Comments';
+import DeleteModal from '../DeleteModal';
 
 function Placeholder() {
   return <div className="editor-placeholder">Enter some rich text...</div>;
@@ -53,9 +54,13 @@ export function Editor({ roomId, currentUserType }: { roomId: string, currentUse
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
+      
       <div className="editor-container bg-dark-100 ">
+      
         <div className='toolbar-wrapper flex min-w-full justify-between'></div>
         <ToolbarPlugin />
+
+        
 
         <div className='editor-wrapper flex flex-col lg:flex-row items-start justify-start'>
           {status === 'not-loaded' || status === 'loading' ? <Loader /> : (
@@ -81,6 +86,7 @@ export function Editor({ roomId, currentUserType }: { roomId: string, currentUse
 
           <LiveblocksPlugin>
             <div className='comments-container'>
+            {currentUserType === 'editor' && <div className='flex justify-center items-center p-4 mt-4 h-4 w-4'><DeleteModal roomId={roomId} /></div> }
               <FloatingComposer className='comment-composer' />
               <FloatingThreads threads={threads} />
               <Comments />

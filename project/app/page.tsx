@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import Image from "next/image";
 import {gsap} from "gsap";
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
+import { SignedOut, SignInButton, SignedIn, UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,10 +33,20 @@ useEffect(() => {
           <h1 className="xl:text-9xl xl:pb-4 lg:text-7xl text-6xl font-extralight italic bg-gradient-to-b from-white via-gray-300 to-black bg-clip-text text-transparent font-sans pr-6">
             DocMaker
           </h1>
-          <div className="top-0 right-0 relative">
-          <Button className="absolute top-4 right-4 lg:static lg:shadow-md hover:shadow-slate-700 font-bold font-sans tracking-wider p-4 mb-4 transform hover:scale-105 transition-transform duration-100">
-          Login
-        </Button></div>
+          
+          
+<div className="ml-8">
+  <div className="absolute top-4 right-4 flex justify-center items-center gap-4 lg:static">
+    <SignedOut>
+                <SignInButton />
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn> <Link href={'/documents/'} className=" lg:static lg:shadow-md hover:shadow-slate-700 bg-dark-100 hover:bg-white hover:text-dark-100 rounded-md  text-white font-bold font-sans tracking-wider p-2  transform hover:scale-105 transition-transform duration-100">
+          Documents
+        </Link></div>
+
+          </div>
           <div className="h-2/3  fixed overflow-hidden w-1/2 -skew-x-12 xl:m-40 lg:m-32 bg-gradient-to-r from-blue-400 via-purple-600 to-blue-700 text-black m-24 bg-animate-1"></div>
           <div className="h-2/3  fixed overflow-hidden w-1/2 skew-x-12 xl:m-40 lg:m-32 bg-gradient-to-b from-indigo-900 via-purple-800 to-black text-black m-24 bg-animate-2"></div>
           </div>
