@@ -39,7 +39,7 @@ export default createDocument;
 export const getDocument = async ({ roomId, userId }: { roomId: string; userId: string }) => {
 
     try{const room = await liveblocks.getRoom(roomId);
-
+        console.log(room);
         const hasAccess = Object.keys(room.usersAccesses).includes(userId);
     
         if(!hasAccess) {

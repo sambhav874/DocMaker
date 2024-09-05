@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SignedOut, SignInButton, SignedIn, UserButton } from '@clerk/nextjs';
 import { updateDocument } from '@/lib/actions/room.actions';
 import ShareModal from './ShareModal';
+import { LiveList, LiveMap, LiveObject } from '@liveblocks/client';
 
 const CollaborativeRoom = ({ roomId, roomMetadata , users , currentUserType }: CollaborativeRoomProps) => {
   
@@ -63,7 +64,11 @@ const CollaborativeRoom = ({ roomId, roomMetadata , users , currentUserType }: C
   } , [editing])
 
   return (
-    <RoomProvider id={roomId}>
+    <RoomProvider initialStorage={{
+      title: roomMetadata.title || 'Untitled',
+      content: new LiveObject({ text: '' }), // Initial content of the editor
+    
+    }} id={roomId}>
       <ClientSideSuspense fallback={<Loader />}>
         <div className="collaborative-room">
           <Header>
