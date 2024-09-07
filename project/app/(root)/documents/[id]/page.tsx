@@ -22,10 +22,7 @@ const Edit = async ({ params: { id } }: SearchParamProps) => {
   // Fetch users from Clerk and filter out null values directly
   const validUsers = (await getClerkUsers({ userIds }) || []).filter(user => user !== null);
 
-  console.log('User IDs from room:', userIds);
-  console.log('Valid users from Clerk:', validUsers);
-
-  // Check for missing users in Clerk
+  
   const missingUsersInClerk = userIds.filter(
     (userId) => !validUsers.some((clerkUser) => clerkUser.email === userId)
   );
