@@ -13,12 +13,11 @@ import DeleteModal from "@/components/DeleteModal";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-// Server-side component to fetch documents based on search term
 const Documents = async ({ searchParams }) => {
   const user = await currentUser();
   if (!user) redirect('/sign-in');
 
-  const searchTerm = searchParams?.search || ''; // Get search term from query parameters
+  const searchTerm = searchParams?.search || ''; 
   const roomDocuments = await getDocuments(user.emailAddresses[0].emailAddress);
 
   // Filter documents based on search term
