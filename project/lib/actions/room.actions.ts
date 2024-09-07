@@ -39,7 +39,7 @@ export default createDocument;
 export const getDocument = async ({ roomId, userId }: { roomId: string; userId: string }) => {
 
     try{const room = await liveblocks.getRoom(roomId);
-        console.log(room);
+        
         const hasAccess = Object.keys(room.usersAccesses).includes(userId);
     
         if(!hasAccess) {
@@ -153,3 +153,18 @@ export const deleteDocument = async (roomId : string) => {
     console.log(`Error happened while deleting document : ${error}`);
   }
 }
+
+export const updateRoomUsers = async ({ roomId, usersAccesses }: { roomId: string, usersAccesses: RoomAccesses }) => {
+  try {
+    
+    const updatedRoom = await liveblocks.updateRoom(roomId, {
+      usersAccesses,
+    });
+    
+    revalidatePath(`/documents/${roomId}`);
+    return parseStringify(updatedRoom);
+
+  } catch (error) {
+    console.log(`Error happened while updating room users: ${error}`);
+  }
+};

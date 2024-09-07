@@ -10,17 +10,17 @@ const ThreadsWrapper = ({ thread } : ThreadWrapperProps) => {
     <Thread
       thread={thread}
       data-state={isActive ? 'active' : null}
-      className={cn('comment-thread border', isActive && 'border-blue-500 shadow-lg', thread.resolved && 'opacity-50')}
+      className={cn('comment-thread border mb-12', isActive && 'border-blue-500 mb-12 shadow-lg', thread.resolved && 'opacity-50')}
     />
   );
 };
 
 const Comments = () => {
   const { threads } = useThreads();
-  console.log(threads);
+  
   return (
-    <div className='comments-container'>
-      <Composer className='comment-composer' />
+    <div className='comments-container min-h-screen'>
+      <Composer className='comment-composer ' />
       {threads.map((thread) => (
         <ThreadsWrapper thread={thread} key={thread.id} />
       ))}

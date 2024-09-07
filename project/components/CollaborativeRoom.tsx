@@ -72,7 +72,7 @@ const CollaborativeRoom = ({ roomId, roomMetadata , users , currentUserType }: C
       <ClientSideSuspense fallback={<Loader />}>
         <div className="collaborative-room">
           <Header>
-            <div ref={containerRef} className="flex w-fit items-center justify-center gap-2">
+            <div ref={containerRef} className="flex w-fit items-center text-sm justify-center md:gap-2 gap-0 ">
               {editing && !loading ? (
                 <Input
                   type="text"
@@ -84,11 +84,11 @@ const CollaborativeRoom = ({ roomId, roomMetadata , users , currentUserType }: C
                   className="document-title-input"
                 />
               ) : (
-                <p className="document-title">{documentTitle}</p>
+                <p className="document-title text-sm md:text-xl ">{documentTitle}</p>
               )}
               {currentUserType === 'editor' && !editing && (
                 <Button
-                  className="flex items-center hover:bg-white hover:text-dark-200 text-white space-x-1 p-2 pointer"
+                  className="flex items-center hover:bg-white hover:text-dark-200 text-white md:space-x-1 p-2 pointer"
                   onClick={() => setEditing(true)}
                 >
                   <FontAwesomeIcon icon={faEdit} className="hover:text-dark-200 text-xl font-light h-4 w-4" />
@@ -98,7 +98,7 @@ const CollaborativeRoom = ({ roomId, roomMetadata , users , currentUserType }: C
               {loading && <p className="text-sm text-gray-400">Saving...</p>}
               
             </div>
-            <div className="flex w-full flex-1 justify-end gap-2 sm:gap-3">
+            <div className="flex w-full flex-1 justify-end gap-0 md:gap-3">
             <ActiveCollaborators />
             
               <ShareModal

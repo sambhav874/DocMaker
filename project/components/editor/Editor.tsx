@@ -44,7 +44,7 @@ export function Editor({ roomId, currentUserType }: { roomId: string, currentUse
   const onChange = useCallback((editorState : any) => {
     editorState.read(() => {
       const textContent = editorState.getTextContent();
-      content.set("text", textContent);  // Update the Liveblocks storage
+      content.set("text", textContent);  
     });
   }, [content]);
 
@@ -102,7 +102,7 @@ export function Editor({ roomId, currentUserType }: { roomId: string, currentUse
         </div>
         <div className='editor-wrapper flex flex-col lg:flex-row items-start justify-start'>
           {status === 'not-loaded' || status === 'loading' ? (
-            <Loader />  // Shows a loader if the editor is loading
+            <Loader />  
           ) : (
             <div className="editor-inner min-h-[1100px] mb-5 h-fit w-full px-4 shadow-md lg:mb-10 relative flex-grow">
               <RichTextPlugin
@@ -129,15 +129,17 @@ export function Editor({ roomId, currentUserType }: { roomId: string, currentUse
           )}
 
           <LiveblocksPlugin>
-            <div className='comments-container'>
+            <div className='comments-container '>
+            <div className='flex justify-center flex-col items-center  '>
               {currentUserType === 'editor' && (
-                <div className='flex justify-center items-center p-4 mt-4'>
+                
                   <DeleteModal roomId={roomId} />  
-                </div>
+                
               )}
               <FloatingComposer className='comment-composer' />
-              <FloatingThreads threads={threads} />
+              <FloatingThreads  threads={threads} />
               <Comments />
+            </div>
             </div>
           </LiveblocksPlugin>
         </div>

@@ -141,6 +141,11 @@
   color: #b4c6ee;
 }
 
+
+.lb-button{
+  @apply justify-center items-center text-white space-x-1 p-2 mt-4 gap-1 shadow-md
+}
+
 .lb-comment-body,
 .lb-dropdown-item,
 .lb-dropdown-item-icon,
