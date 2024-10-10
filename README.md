@@ -16,14 +16,13 @@ Styling: Tailwind CSS, ShadCN UI components
 Getting Started
 Prerequisites
 Node.js and npm installed
-AWS account with S3 configured
 Clerk account for authentication setup
 Installation
 Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/your-username/DocMaker
+git clone https://github.com/sambhav874/DocMaker
 Navigate to the project directory:
 
 bash
